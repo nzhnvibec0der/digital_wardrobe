@@ -9,4 +9,7 @@ services:
       python manage.py makemigrations
       python manage.py migrate
       python manage.py collectstatic --noinput
-    startCommand: gunicorn digital_wardrobe.wsgi:application
+    startCommand: |
+      python manage.py migrate --noinput
+      gunicorn digital_wardrobe.wsgi:application
+
