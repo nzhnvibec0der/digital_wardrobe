@@ -95,5 +95,6 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     'digitalwardrobe.asia',
-    'www.digitalwardrobe.asia'
+    'www.digitalwardrobe.asia',
+    'digital-wardrobe-9ez3.onrender.com',
 ]
