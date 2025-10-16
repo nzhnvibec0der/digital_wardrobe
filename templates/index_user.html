@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Лента образов{% endblock %}
+{% load static %}
+
+{% block content %}
+<h2 class="text-xl font-semibold mb-6 text-purple-700">Лента образов</h2>
+
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+    {% for outfit in outfits %}
+    <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
+        {% if outfit.image %}
+            <img src="{{ outfit.image.url }}" alt="{{ outfit.name }}" class="w-full h-64 object-cover">
+        {% elif outfit.items.all %}
+            <div class="grid grid-cols-2 grid-rows-2 w-full h-64">
+                {% for item in outfit.items.all|slice:":4" %}
+                    <img src="{{ item.image.url }}" alt="{{ item.name }}" class="w-full h-full object-cover">
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="w-full h-64 bg-gray-200 flex items-center justify-center text-gray-400">
+                Нет изображения
+            </div>
+        {% endif %}
+        <div class="p-4">
+            <h3 class="font-semibold text-gray-800">{{ outfit.name }}</h3>
+            <p class="text-sm text-gray-500">{{ outfit.description|default:"Без описания" }}</p>
+            <p class="text-xs text-gray-400 mt-2">👁 {{ outfit.get_visibility_display }}</p>
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-gray-500 col-span-full text-center py-10">Пока нет образов 😔</p>
+    {% endfor %}
+</div>
+{% endblock %}
+

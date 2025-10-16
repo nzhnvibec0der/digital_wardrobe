@@ -1,0 +1,24 @@
+{% extends "base_guest.html" %}
+{% block title %}FAQ — Частые вопросы{% endblock %}
+{% block content %}
+<section class="max-w-3xl mx-auto py-12">
+    <h1 class="text-3xl font-bold text-purple-700 mb-8 text-center">Частые вопросы</h1>
+
+    <div class="space-y-6">
+        <details class="bg-white shadow rounded-lg p-4">
+            <summary class="font-semibold cursor-pointer">Как добавить одежду?</summary>
+            <p class="text-gray-600 mt-2">Зайдите в «Мой шкаф» → «Добавить вещь» и загрузите фото.</p>
+        </details>
+
+        <details class="bg-white shadow rounded-lg p-4">
+            <summary class="font-semibold cursor-pointer">Можно ли делиться образами?</summary>
+            <p class="text-gray-600 mt-2">Да, если выбрать видимость «для всех» при создании образа.</p>
+        </details>
+
+        <details class="bg-white shadow rounded-lg p-4">
+            <summary class="font-semibold cursor-pointer">Будет ли мобильное приложение?</summary>
+            <p class="text-gray-600 mt-2">Мы планируем выпустить приложение в будущем обновлении 📱</p>
+        </details>
+    </div>
+</section>
+{% endblock %}

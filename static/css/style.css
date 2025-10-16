@@ -1,0 +1,150 @@
+/* === Общие стили === */
+body {
+    background-color: #f9f9fc;
+    color: #333;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* === Навигация === */
+nav {
+    background: #ffffff;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+nav .logo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #7e3af2; /* фиолетовый акцент */
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a {
+    color: #555;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+nav ul li a:hover {
+    color: #7e3af2;
+}
+
+nav .user {
+    font-weight: 600;
+    color: #444;
+}
+
+/* === Карточки вещей === */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+}
+
+.card img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+.card-content {
+    padding: 0.9rem 1.1rem;
+}
+
+.card-content h3 {
+    font-size: 1.1rem;
+    color: #222;
+    margin: 0 0 0.4rem;
+}
+
+.card-content p {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* === Пустое состояние === */
+.empty {
+    text-align: center;
+    color: #777;
+    font-size: 1rem;
+    padding: 3rem 0;
+}
+
+/* === Футер (если нужен) === */
+footer {
+    text-align: center;
+    padding: 1rem 0;
+    color: #999;
+    font-size: 0.9rem;
+    margin-top: 3rem;
+}
+
+/* style.css — кастомные доработки поверх Tailwind */
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+nav {
+    transition: box-shadow 0.2s ease;
+}
+
+nav:hover {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Карточки */
+.card {
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+/* Название */
+h3 {
+    font-size: 1rem;
+}
+
+/* Фиолетовый акцент */
+.text-accent {
+    color: #7C3AED;
+}
+
+.bg-accent {
+    background-color: #7C3AED;
+    color: white;
+}

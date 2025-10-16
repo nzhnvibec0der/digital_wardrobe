@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Добавить вещь{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto bg-white shadow-lg rounded-2xl p-8">
+    <h2 class="text-2xl font-bold text-purple-700 mb-6">Добавить новую вещь</h2>
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-5">
+        {% csrf_token %}
+        <div>
+            <label class="block text-gray-700 mb-2">Название</label>
+            {{ form.name }}
+        </div>
+        <div>
+            <label class="block text-gray-700 mb-2">Категория</label>
+            {{ form.category }}
+        </div>
+        <div>
+            <label class="block text-gray-700 mb-2">Цвет</label>
+            {{ form.color }}
+        </div>
+        <div>
+            <label class="block text-gray-700 mb-2">Сезон</label>
+            {{ form.season }}
+        </div>
+        <div>
+            <label class="block text-gray-700 mb-2">Фото</label>
+            {{ form.image }}
+        </div>
+        </div>
+            <label class="block">
+                <span class="text-gray-700">Видимость</span>
+                {{ form.visibility }}
+            </label>
+        </div>
+
+        <button type="submit" class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition">
+            Добавить вещь
+        </button>
+    </form>
+</div>
+{% endblock %}

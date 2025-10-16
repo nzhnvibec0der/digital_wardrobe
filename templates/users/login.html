@@ -1,0 +1,71 @@
+{% extends "base_guest.html" %}
+{% block title %}Вход — Wardrobe{% endblock %}
+{% load static %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center min-h-screen px-4 py-10 bg-gradient-to-b from-purple-50 to-white">
+
+  <div class="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
+    <h1 class="text-3xl font-bold text-center text-purple-700 mb-6">Войти в аккаунт</h1>
+
+    <!-- Сообщения об ошибках -->
+    {% if messages %}
+      <div class="mb-4">
+        {% for message in messages %}
+          <div class="text-red-600 text-sm text-center">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="POST" id="login-form" class="space-y-5" novalidate>
+      {% csrf_token %}
+
+      <div>
+        <label class="block text-gray-700 mb-2 font-medium">Имя пользователя</label>
+        <input type="text" name="username" id="username" required
+               class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-400 outline-none">
+      </div>
+
+      <div>
+        <label class="block text-gray-700 mb-2 font-medium">Email</label>
+        <input type="email" name="email" id="email" required
+               class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-400 outline-none">
+        <p id="email-error" class="text-red-500 text-sm hidden mt-1">Введите корректный email.</p>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 mb-2 font-medium">Пароль</label>
+        <input type="password" name="password" id="password" required
+               class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-400 outline-none">
+      </div>
+
+      <button type="submit"
+              class="w-full py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition">
+        🚪 Войти
+      </button>
+    </form>
+
+    <p class="text-center text-gray-600 mt-5">
+      Нет аккаунта?
+      <a href="{% url 'register' %}" class="text-purple-600 hover:underline">Создать</a>
+    </p>
+  </div>
+</div>
+
+<script>
+  // простая фронт-валидация email
+  document.getElementById('login-form').addEventListener('submit', function(e) {
+    const emailInput = document.getElementById('email');
+    const error = document.getElementById('email-error');
+    const valid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(emailInput.value.trim());
+    if (!valid) {
+      e.preventDefault();
+      error.classList.remove('hidden');
+      emailInput.classList.add('border-red-500');
+    } else {
+      error.classList.add('hidden');
+      emailInput.classList.remove('border-red-500');
+    }
+  });
+</script>
+{% endblock %}

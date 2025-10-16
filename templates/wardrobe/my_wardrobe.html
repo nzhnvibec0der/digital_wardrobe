@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block title %}Мой гардероб{% endblock %}
+{% block content %}
+
+<h1 class="text-3xl font-bold text-purple-700 mb-6 text-center md:text-left">👗 Мой гардероб</h1>
+
+<!-- 🔹 Панель управления -->
+<div class="flex flex-col sm:flex-row justify-between items-center sm:items-end mb-6 gap-4">
+    <div class="flex flex-col sm:flex-row gap-3">
+        <a href="{% url 'add_item' %}" 
+           class="px-5 py-2 bg-purple-600 text-white rounded-lg text-center hover:bg-purple-700 transition">
+            ➕ Добавить вещь
+        </a>
+        <a href="{% url 'create_outfit' %}" 
+           class="px-5 py-2 bg-purple-100 text-purple-700 rounded-lg text-center hover:bg-purple-200 transition">
+            👚 Создать образ
+        </a>
+    </div>
+        <button id="filterToggle"
+                class="bg-purple-600 text-white px-5 py-2 rounded-lg text-center hover:bg-purple-700 transition text-sm mt-2 sm:mt-0">
+            ⚙️ Фильтры
+        </button>
+</div>
+
+<!-- 🔽 Панель фильтров -->
+<form id="filterPanel" method="get" 
+      class="hidden bg-white p-4 rounded-xl shadow flex flex-wrap gap-3 mb-6 items-center justify-between">
+
+    <input type="text" name="search" placeholder="Поиск по названию..."
+           value="{{ search }}" class="border border-gray-300 rounded-lg px-4 py-2 w-full sm:w-60 focus:outline-none focus:ring-2 focus:ring-purple-400">
+
+    <select name="category" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-400">
+        <option value="">Все категории</option>
+        {% for val, label in items.model.CATEGORY_CHOICES %}
+            <option value="{{ val }}" {% if category == val %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="color" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-400">
+        <option value="">Все цвета</option>
+        {% for c in available_colors %}
+            <option value="{{ c }}" {% if color == c %}selected{% endif %}>{{ c|title }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="season" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-400">
+        <option value="">Все сезоны</option>
+        {% for val, label in items.model.SEASON_CHOICES %}
+            <option value="{{ val }}" {% if season == val %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition">
+        Применить
+    </button>
+    <a href="{% url 'my_wardrobe' %}" class="text-gray-500 text-sm hover:text-purple-600 ml-2">
+        Сбросить
+    </a>
+</form>
+
+<!-- 🧠 JS для плавного появления -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const toggleBtn = document.getElementById("filterToggle");
+  const panel = document.getElementById("filterPanel");
+
+  toggleBtn.addEventListener("click", () => {
+    panel.classList.toggle("hidden");
+    panel.classList.toggle("animate-slide-down");
+  });
+});
+</script>
+
+<style>
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-slide-down { animation: slide-down 0.3s ease-out; }
+</style>
+
+
+<!-- 🔹 Вещи -->
+<h2 class="text-xl font-semibold mb-4 text-purple-700">Мои вещи</h2>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+    {% for item in items %}
+    <div class="bg-white rounded-2xl shadow hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+        {% if item.image %}
+        <img src="{{ item.image.url }}" alt="{{ item.name }}" class="w-full h-64 object-cover">
+        {% else %}
+        <div class="w-full h-64 bg-gray-200 flex items-center justify-center text-gray-400">Нет изображения</div>
+        {% endif %}
+        <div class="p-3">
+            <h3 class="font-semibold text-gray-800 truncate">{{ item.name }}</h3>
+            <p class="text-sm text-gray-500">{{ item.category }}</p>
+            <p class="text-xs text-gray-400 mt-1">👁 {{ item.get_visibility_display }}</p>
+
+            <div class="flex flex-wrap justify-between items-center mt-3 gap-2">
+                <a href="{% url 'edit_item' item.id %}" 
+                   class="text-sm text-blue-600 hover:underline">Редактировать</a>
+                <a href="{% url 'delete_item' item.id %}" 
+                   class="text-sm text-red-600 hover:underline">Удалить</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p class="col-span-full text-center text-gray-500 py-6">Пока нет добавленных вещей 😔</p>
+    {% endfor %}
+</div>
+
+<!-- 🔹 Образы -->
+<h2 class="text-xl font-semibold mt-10 mb-4 text-purple-700">Мои образы</h2>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+    {% for outfit in outfits %}
+    <div class="bg-white rounded-2xl shadow hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+        <div class="p-3">
+            <h3 class="font-semibold text-gray-800 truncate">{{ outfit.name }}</h3>
+            <p class="text-xs text-gray-400 mb-2">👁 {{ outfit.get_visibility_display }}</p>
+            <div class="flex space-x-1 overflow-x-auto">
+                {% for i in outfit.items.all %}
+                <img src="{{ i.image.url }}" class="w-12 h-12 rounded object-cover border">
+                {% endfor %}
+            </div>
+            <div class="flex justify-end items-center mt-3">
+                <a href="{% url 'delete_outfit' outfit.id %}" 
+                   class="text-sm text-red-600 hover:underline">Удалить</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p class="col-span-full text-center text-gray-500 py-6">Пока нет созданных образов 😌</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
